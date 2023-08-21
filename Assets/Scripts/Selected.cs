@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 
 public class Selected : MonoBehaviour
 {
+    public ArrayModificationSystem modificationSystem;
     LayerMask mask;
     public float distancia = 2f;
     public Texture2D puntero;
@@ -14,8 +15,6 @@ public class Selected : MonoBehaviour
     public GameObject TextTalk;
     public GameObject TextE;
     public float factor = 0.5f;
-
-    // Start is called before the first frame update
 
     void Start()
     {
@@ -28,40 +27,34 @@ public class Selected : MonoBehaviour
 
     }
 
-    // Update is called once per frame
     void Update()
     {
         RaycastHit hit;
         Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward), Color.green, distancia);
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, distancia)) {
-                Debug.Log(hit.collider.tag);
-            if (hit.collider.tag == "InteractNote") {
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, distancia))
+        {
+            if (hit.collider.tag == "InteractPista1")
+            {
 
-                    TextE.SetActive(true);
-                if (Input.GetKeyDown(KeyCode.E) ||  Input.touchCount == 1  && Input.GetTouch(0).phase == TouchPhase.Began) {
+                TextE.SetActive(true);
+                if (Input.GetKeyDown(KeyCode.E) || Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began)
+                {
+
+                    int indexToIncrement = 1;
+                    modificationSystem.IncrementCounter(indexToIncrement);
+                    hit.collider.tag = "Untagged";
                 }
 
-           /* } else if (hit.collider.tag == "talk") {
-
-                if (hit.collider.transform.GetComponent<MovementPeasants>().speed > 0) {
-                    TextTalk.SetActive(true);
-
-                } else {
-                    TextTalk.SetActive(false);
-
-                }
-
-                if (Input.GetKeyDown(KeyCode.E) ||  Input.touchCount == 1  && Input.GetTouch(0).phase == TouchPhase.Began) {
-                    hit.collider.transform.GetComponent<MovementPeasants>().Talk();
-                }   */
-                        
-            } else {
+            }
+            else
+            {
                 TextE.SetActive(false);
             }
-        } else {
-                TextE.SetActive(false);
+        }
+        else
+        {
+            TextE.SetActive(false);
         }
     }
 }
 
-    
