@@ -9,15 +9,17 @@ public class Selected : MonoBehaviour
     LayerMask mask;
     public float distancia = 2f;
     public Texture2D puntero;
-    public GameObject TextDetected;
+    public CanvasGroup TextClue;
     GameObject ultimoReconocido = null;
     public GameObject TextObj;
     public GameObject TextTalk;
     public GameObject TextE;
     public float factor = 0.5f;
+    public AudioClip newClue;
 
     void Start()
     {
+        TextClue.alpha = 0f;
         mask = LayerMask.GetMask("RayCastDetect");
         Screen.SetResolution(
             Mathf.CeilToInt(Screen.currentResolution.width * factor),
@@ -43,17 +45,62 @@ public class Selected : MonoBehaviour
                     int indexToIncrement = 1;
                     modificationSystem.IncrementCounter(indexToIncrement);
                     hit.collider.tag = "Untagged";
+                    //TextClue.SetActive(true);
+                    StartCoroutine(FadeInAndOut());
+                    AudioSource.PlayClipAtPoint(newClue, transform.position, 1);
+
+
                 }
 
             }
             else
             {
                 TextE.SetActive(false);
+
             }
         }
         else
         {
             TextE.SetActive(false);
+
+        }
+    }
+
+    IEnumerator FadeInAndOut()
+    {
+        float duration = 1.0f;
+        yield return StartCoroutine(FadeIn(duration));
+        yield return new WaitForSeconds(duration);
+        yield return StartCoroutine(FadeOut(duration));
+
+    }
+
+    IEnumerator FadeIn(float duration)
+    {
+        float salpha = 0f;
+        float ealpha = 1f;
+        Debug.Log("fadeIN");
+        float init = 0f;
+        while (init < duration)
+        {
+            TextClue.alpha = Mathf.Lerp(salpha, ealpha, init / duration);
+            init += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    IEnumerator FadeOut(float duration)
+    {
+        float salpha = 1f;
+        float ealpha = 0f;
+        Debug.Log("fadeOUT");
+
+        float init = 0f;
+        while (init < duration)
+        {
+            TextClue.alpha = Mathf.Lerp(salpha, ealpha, init / duration);
+            init += Time.deltaTime;
+            yield return null;
         }
     }
 }
