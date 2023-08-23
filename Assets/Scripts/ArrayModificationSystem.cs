@@ -39,7 +39,7 @@ public class ArrayModificationSystem : MonoBehaviour
 
         if (objectToInstantiate != null)
         {
-            Destroy(countersSprites[index]);
+            DestroyImmediate(countersSprites[index], true);
             countersSprites[index] = objectToInstantiate;
         }
     }
