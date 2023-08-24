@@ -16,6 +16,11 @@ public class Selected : MonoBehaviour
     public GameObject TextE;
     public float factor = 0.5f;
     public AudioClip newClue;
+    public AudioClip doorSound;
+
+    public Transform playerTransform;
+    public Transform teleportTarget;
+    public Transform teleportTargetOutDes;
 
     void Start()
     {
@@ -48,6 +53,36 @@ public class Selected : MonoBehaviour
                     //TextClue.SetActive(true);
                     StartCoroutine(FadeInAndOut());
                     AudioSource.PlayClipAtPoint(newClue, transform.position, 1);
+
+
+                }
+
+            }
+            else if (hit.collider.tag == "DoorDespacho")
+            {
+
+                TextE.SetActive(true);
+                if (Input.GetKeyDown(KeyCode.E) || Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began)
+                {
+
+                    playerTransform.position = teleportTarget.position;
+
+                    AudioSource.PlayClipAtPoint(doorSound, transform.position, 1);
+
+
+                }
+
+            }
+            else if (hit.collider.tag == "DoorOutDespacho")
+            {
+
+                TextE.SetActive(true);
+                if (Input.GetKeyDown(KeyCode.E) || Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began)
+                {
+
+                    playerTransform.position = teleportTargetOutDes.position;
+
+                    AudioSource.PlayClipAtPoint(doorSound, transform.position, 1);
 
 
                 }

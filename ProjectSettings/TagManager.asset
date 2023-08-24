@@ -6,6 +6,8 @@ TagManager:
   tags:
   - InteractNote
   - InteractPista1
+  - DoorDespacho
+  - DoorOutDespacho
   layers:
   - Default
   - TransparentFX
