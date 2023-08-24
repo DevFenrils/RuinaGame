@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class Selected : MonoBehaviour
 {
@@ -21,6 +22,10 @@ public class Selected : MonoBehaviour
     public Transform playerTransform;
     public Transform teleportTarget;
     public Transform teleportTargetOutDes;
+
+    public GameObject blackoutPanel;
+    public GameObject returnPanel;
+
 
     void Start()
     {
@@ -69,9 +74,10 @@ public class Selected : MonoBehaviour
 
                     AudioSource.PlayClipAtPoint(doorSound, transform.position, 1);
 
+                    StartCoroutine(TransitionEffect());
 
                 }
-
+                
             }
             else if (hit.collider.tag == "DoorOutDespacho")
             {
@@ -84,6 +90,7 @@ public class Selected : MonoBehaviour
 
                     AudioSource.PlayClipAtPoint(doorSound, transform.position, 1);
 
+                    StartCoroutine(TransitionEffect());
 
                 }
 
@@ -137,6 +144,52 @@ public class Selected : MonoBehaviour
             init += Time.deltaTime;
             yield return null;
         }
+    }
+
+    IEnumerator TransitionEffect()
+    {
+        blackoutPanel.SetActive(true);
+
+        float duration = 1.5f;
+        float startAlpha = 1f;
+        float endAlpha = 0f;
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            float alpha = Mathf.Lerp(startAlpha, endAlpha, elapsedTime / duration);
+            Color color = blackoutPanel.GetComponent<Image>().color;
+            color.a = alpha;
+            blackoutPanel.GetComponent<Image>().color = color;
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        blackoutPanel.SetActive(false);
+
+        /*returnPanel.SetActive(true);
+
+        duration = 1.5f;
+        startAlpha = 0f;
+        endAlpha = 1f;
+
+        elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            float alpha = Mathf.Lerp(startAlpha, endAlpha, elapsedTime / duration);
+            Color color = returnPanel.GetComponent<Image>().color;
+            color.a = alpha;
+            returnPanel.GetComponent<Image>().color = color;
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        returnPanel.SetActive(false);*/
+
     }
 }
 
