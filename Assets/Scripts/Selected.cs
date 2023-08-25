@@ -15,6 +15,7 @@ public class Selected : MonoBehaviour
     public GameObject TextObj;
     public GameObject TextTalk;
     public GameObject TextE;
+    public GameObject Letter;
     public float factor = 0.5f;
     public AudioClip newClue;
     public AudioClip doorSound;
@@ -95,6 +96,16 @@ public class Selected : MonoBehaviour
                 }
 
             }
+            else if (hit.collider.tag == "LetterDespacho")
+            {
+
+                TextE.SetActive(true);
+                if (Input.GetKeyDown(KeyCode.E) || Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began)
+                {
+                   Letter.SetActive(true);
+                }
+                
+            }
             else
             {
                 TextE.SetActive(false);
@@ -105,6 +116,10 @@ public class Selected : MonoBehaviour
         {
             TextE.SetActive(false);
 
+        }
+        
+        if(Input.GetKeyDown(KeyCode.Escape) && Letter.activeSelf){
+            Letter.SetActive(false);
         }
     }
 
